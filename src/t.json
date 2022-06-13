@@ -1,0 +1,37 @@
+{
+	'coord': {
+		'lon': 95.3615, 
+		'lat': 27.4919}, 
+	'weather': [{
+		'id': 804, 
+		'main': 'Clouds', 
+		'description': 'overcast clouds', 
+		'icon': '04d'}], 
+	'base': 'stations', 
+	'main': {
+		'temp': 25.91, 
+		'feels_like': 27.01, 
+		'temp_min': 25.91, 
+		'temp_max': 25.91, 
+		'pressure': 1003, 
+		'humidity': 94, 
+		'sea_level': 1003, 
+		'grnd_level': 988}, 
+	'visibility': 10000, 
+	'wind': {
+		'speed': 1.47, 
+		'deg': 30, 
+		'gust': 2.51}, 
+	'clouds': {
+		'all': 98}, 
+	'dt': 1655118096, 
+	'sys': {
+		'type': 1, 
+		'id': 9126, 
+		'country': 'IN', 
+		'sunrise': 1655073773, 
+		'sunset': 1655123660}, 
+	'timezone': 19800, 
+	'id': 1254432, 
+	'name': 'Tinsukia', 
+	'cod': 200}
