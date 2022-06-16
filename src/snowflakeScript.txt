@@ -1,0 +1,69 @@
+use role sysadmin;
+
+create database weather_station;
+use database weather_station;
+
+create table weather(
+  eventdate datetime, 
+  temp float, 
+  sunrise datetime, 
+  sunset datetime, 
+  description varchar(30)
+); 
+
+create table climate(
+  eventdate date,
+  avg_temp float
+);
+
+create stream weather_stream on table weather;
+
+create warehouse weather_station_wh
+warehouse_size = 'xsmall'
+auto_suspend = 1
+auto_resume = true;
+
+create warehouse weather_station_task_wh
+warehouse_size = 'xsmall'
+auto_suspend = 1
+auto_resume = true;
+
+use warehouse weather_station_wh;
+
+create procedure weather_avg_sp()
+returns string
+language javascript
+as
+$$
+    var sql_command = "insert into climate select left(eventdate, 10) d , avg(temp) from weather_stream group by d";
+    snowflake.execute(
+        {sqlText: sql_command}
+    )
+$$;
+
+create or replace task weather_to_climate
+warehouse = weather_station_task_wh
+schedule = '60 minute'
+when system$stream_has_data('weather_stream')
+as
+call weather_avg_sp();
+
+select * from weather;
+select * from weather_stream;
+select * from climate;
+
+show tasks;
+
+use role accountadmin;
+alter task weather_to_climate resume;
+
+//use role accountadmin;
+//alter task weather_to_climate suspend;
+
+
+
+
+
+//drop database weather_station;
+//drop warehouse weather_station_wh;
+//drop warehouse weather_station_task_wh;
